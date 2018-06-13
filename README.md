@@ -9,4 +9,6 @@ Download the dataset from link: <a href="http://grebvm2.epfl.ch/lin/food/Food-11
 Run the JupyterNote 'Food-Classification-Exploratory-Data-Analysis'. Output images will be stored in 'food-classification-eda-images' directory
 
 # Analysis
-<TBD>
+Input size analysis: 
+![alt text](https://github.com/shbharath/AI-Food-Classification/blob/master/food-classification-eda-images/input_size_exploration.png "Sizing the Image Analysis")
+

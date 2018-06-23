@@ -1,4 +1,4 @@
-from tqdm import tqdm
+from tqdm import tqdm # need to run `pip install tqdm`
 import getopt
 import glob
 import os

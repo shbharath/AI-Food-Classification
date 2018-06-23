@@ -1,4 +1,3 @@
-from file_downloader import download
-
-download()
+from file_downloader import Food_11_Downloder
+Food_11_Downloder.may_be_download_food_11_dependency()
 

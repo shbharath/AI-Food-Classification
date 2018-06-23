@@ -15,7 +15,7 @@ def download_files(url):
 
     if not os.path.exists(local_filename):
       print("Downloading file {0}\n".format(local_filename))
-      urllib.request.retrieve(url, local_filename)
+      urllib.request.urlretrieve(url, local_filename)
 
       if zipfile.is_zipfile(local_filename):
         print("Extracting file {0}\n".format(local_filename))

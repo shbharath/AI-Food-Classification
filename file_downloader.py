@@ -1,9 +1,8 @@
-from tqdm import tqdm # need to run `pip install tqdm`
 import getopt
 import glob
-import os
-import requests
+import os.path
 import sys
+import urllib.request
 import zipfile
 
 def get_urls(inputfile):
@@ -13,36 +12,35 @@ def get_urls(inputfile):
 
 def download_files(url):
     local_filename = url.split('/')[-1]
-    print("Downloading file {0}\n".format(local_filename))
-    response = requests.get(url, stream=True)
 
-    with open(local_filename, "wb") as handle:
-      for data in tqdm(response.iter_content()):
-        handle.write(data)
+    if not os.path.exists(local_filename):
+      print("Downloading file {0}\n".format(local_filename))
+      urllib.request.retrieve(url, local_filename)
 
-    if zipfile.is_zipfile(local_filename):
-      print("Extracting file {0}\n".format(local_filename))
-      with zipfile.ZipFile(local_filename,"r") as zip_ref:
-        zip_ref.extractall()
-        zip_ref.close()
+      if zipfile.is_zipfile(local_filename):
+        print("Extracting file {0}\n".format(local_filename))
+        with zipfile.ZipFile(local_filename,"r") as zip_ref:
+          zip_ref.extractall()
+          zip_ref.close()
 
 def main(argv):
+    inputfile = ""
     help_string = "file_downloader.py -i <inputfile>\n"
+    default_file = "external_downloads_url.txt"
 
     if len(sys.argv) < 2:
-        sys.exit(help_string)
-
-    try:
-      opts, args = getopt.getopt(argv,"hi:",["ifile="])
-    except getopt.GetoptError:
-      print(help_string)
-      sys.exit(2)
-    for opt, arg in opts:
-      if opt == '-h':
-         print(help_string)
-         sys.exit()
-      elif opt in ("-i", "--ifile"):
-         inputfile = arg
+      input_file = default_file
+    else:
+      try:
+        opts, args = getopt.getopt(argv,"hi:",["ifile="])
+      except getopt.GetoptError:
+        print(help_string)
+        sys.exit(2)
+      for opt, arg in opts:
+        if opt == '-h':
+           sys.exit(help_string)
+        elif opt in ("-i", "--ifile"):
+           inputfile = arg
 
     urls = get_urls(inputfile)
     for url in urls:

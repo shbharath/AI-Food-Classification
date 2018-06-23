@@ -7,7 +7,6 @@
 import tensorflow as tf
 import numpy as np
 
-from tensorflow.contrib.data import Dataset
 from tensorflow.python.framework import dtypes
 from tensorflow.python.framework.ops import convert_to_tensor
 

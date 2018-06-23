@@ -29,7 +29,7 @@ def main(argv):
     default_file = "external_downloads_url.txt"
 
     if len(sys.argv) < 2:
-      input_file = default_file
+      inputfile = default_file
     else:
       try:
         opts, args = getopt.getopt(argv,"hi:",["ifile="])

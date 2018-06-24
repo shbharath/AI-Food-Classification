@@ -10,6 +10,9 @@ import numpy as np
 from tensorflow.python.framework import dtypes
 from tensorflow.python.framework.ops import convert_to_tensor
 
+from tensorflow.contrib.data import Dataset
+from tensorflow.python.ops import control_flow_ops
+
 IMAGENET_MEAN = tf.constant([123.68, 116.779, 103.939], dtype=tf.float32)
 
 
@@ -116,10 +119,17 @@ class ImageDataGenerator(object):
         img_string = tf.read_file(filename)
         img_decoded = tf.image.decode_png(img_string, channels=3)
         img_resized = tf.image.resize_images(img_decoded, [227, 227])
-        """
-        Dataaugmentation comes here.
-        """
-        img_centered = tf.subtract(img_resized, IMAGENET_MEAN)
+        #Image augmentation 
+        #add gaussian noise 
+        img_noised = tf.random_normal(shape=tf.shape(img_resized), mean=0.0, stddev=0.2, dtype=tf.float32) + img_resized;
+         # flip with probability of 1/2
+        random_var = tf.random_uniform(maxval=2, dtype=tf.int32, shape=[])
+        img_ran_flip = control_flow_ops.cond(pred=tf.equal(random_var, 0),
+                                                 fn1=lambda: tf.image.flip_left_right(img_noised),
+                                                 fn2=lambda: img_noised)
+        
+        
+        img_centered = tf.subtract(img_ran_flip, IMAGENET_MEAN)
 
         # RGB -> BGR
         img_bgr = img_centered[:, :, ::-1]

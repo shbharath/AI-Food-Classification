@@ -10,7 +10,6 @@ import numpy as np
 from tensorflow.python.framework import dtypes
 from tensorflow.python.framework.ops import convert_to_tensor
 
-from tensorflow.contrib.data import Dataset
 from tensorflow.python.ops import control_flow_ops
 
 IMAGENET_MEAN = tf.constant([123.68, 116.779, 103.939], dtype=tf.float32)
@@ -23,7 +22,7 @@ class ImageDataGenerator(object):
     """
 
     def __init__(self, txt_file, mode, batch_size, num_classes, shuffle=True,
-                 buffer_size=1000):
+                 buffer_size=10000):
         """Create a new ImageDataGenerator.
 
         Recieves a path string to a text file, which consists of many lines,
